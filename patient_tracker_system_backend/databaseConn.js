@@ -29,11 +29,11 @@ export function test(){
         if(err) {
           return console.error('could not connect to postgres', err);
         }
-        client.query('SELECT NOW() AS "theTime"', function(err, result) {
+        client.query('SELECT * FROM DOCTORS;', function(err, result) {
           if(err) {
             return console.error('error running query', err);
           }
-          console.log(result.rows[0].theTime);
+          console.log(result);
           //output: Tue Jan 15 2013 19:12:47 GMT-600 (CST)
           client.end();
         });

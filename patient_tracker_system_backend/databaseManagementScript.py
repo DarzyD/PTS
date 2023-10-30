@@ -28,7 +28,7 @@ CREATE TABLE patients (
     phoneNumber int,
     email varchar(100),
     password varchar(100),
-    doctorUsername varchar(50) REFERENCES doctor(doctorUsername)
+    doctorUsername varchar(50) REFERENCES doctors(doctorUsername)
 );
 """
 
@@ -54,8 +54,8 @@ CREATE TABLE doctors (
 
 appointmentsTable = """
 CREATE TABLE appointments (
-    patientUsername varchar(50) REFERENCES patient(patientUsername),
-    doctorUsername varchar(50) REFERENCES doctor(doctorUsername),
+    patientUsername varchar(50) REFERENCES patients(patientUsername),
+    doctorUsername varchar(50) REFERENCES doctors(doctorUsername),
     time int,
     date varchar(10)
 );
@@ -63,7 +63,7 @@ CREATE TABLE appointments (
 
 documentsTable = """
 CREATE TABLE documents (
-    patientUsername varchar(50) REFERENCES patient(patientUsername),
+    patientUsername varchar(50) REFERENCES patients(patientUsername),
     docid int PRIMARY KEY,
     documentName varchar(100),
     linkToDoc varchar(100)
