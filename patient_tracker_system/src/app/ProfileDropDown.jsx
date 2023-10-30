@@ -8,21 +8,24 @@ import {
     DropdownTrigger
 } from "@nextui-org/react";
 import Link from "next/link";
-export const ProfileDropDown = ({setLoggedIn}) => {
+import {signOut, useSession} from "next-auth/react"
+export const ProfileDropDown = () => {
+    const {data: session} = useSession();
+
 
     const handleMenuClick = (key) => {
         switch(key) {
             case "profile" :
                 break;
             case "logout":
-                setLoggedIn(false);
+                signOut();
                 break;
             default:
         }
     }
 
     return (
-        <Dropdown>
+        <Dropdown  hidden={!session}>
             <DropdownTrigger>
                 <Button style={{margin: 0}}>
                     <Avatar src="../../profile.jpg" />

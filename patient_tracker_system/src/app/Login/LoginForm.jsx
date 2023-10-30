@@ -7,16 +7,23 @@ export const LoginForm = ({setLoggedIn}) => {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
 
+    module.exports = {
+        reactStrictMode: true,
+        env: {
+            NEXT_PUBLIC_GOOGLE_ID: process.env.NEXT_PUBLIC_GOOGLE_ID,
+        }
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(name, password);
+        console.log(NEXT_PUBLIC_GOOGLE_ID);
         //TODO: verify login info here
         setLoggedIn(true);
     }
 
     return (
-        <form style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-            <h2>Log In</h2>
+        <form style={{display: "flex", flexDirection: "column", alignItems: "center", padding: "16px", gap: "4px"}}>
             <input
                 id="username"
                 type="text"
@@ -34,7 +41,6 @@ export const LoginForm = ({setLoggedIn}) => {
                 required
             />
             <a href="">Forgot Username or Password?</a>
-            <p id="errorMessage"> </p>
             <Button id="login-button" type="submit" onClick={handleSubmit}>
                 Login
             </Button>

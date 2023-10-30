@@ -2,15 +2,22 @@ body {
     margin: 0;
 }
 .card {
-    background: #0d0d0d;
+    background: #d0d0d0;
     box-shadow: 10px 5px 5px #8f8f8f;
     border-radius: 10px;
     margin: 15px;
     align-items: center;
+    display: flex;
+    flex-direction: column;
+    max-width: 30%;
 }
 .Body {
     display: flex;
     align-content: center;
     flex-wrap: wrap;
 
+}
+.centerDiv {
+    display: flex;
+    justify-content: center;
 }
