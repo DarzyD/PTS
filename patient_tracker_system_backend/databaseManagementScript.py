@@ -20,7 +20,7 @@ CREATE TABLE patients (
     middleInitial char,
     dob varchar(10),
     sex char,
-    ssn varchar(11),
+    ssn int,
     address varchar(200),
     city varchar(100),
     state varchar(20),

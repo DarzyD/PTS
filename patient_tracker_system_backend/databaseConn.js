@@ -6,13 +6,13 @@ const dbURL = `postgres://${process.env.USER}:${process.env.PASS}@suleiman.db.el
 
 const patientsTable = `CREATE TABLE patients(patientUsername varchar(50), 
 firstName varchar(50), lastName varChar(50), middleInitial char, dob varchar(10), 
-sex char, ssn varchar(11), address varchar(200), city varchar(100) state varchar(20), zipcode varchar(10),
+sex char, ssn int, address varchar(200), city varchar(100) state varchar(20), zipcode varchar(10),
 phoneNumber int, email varchar(100), password varchar(100), doctorUsername varchar(50) REFERENCES doctor(doctorUsername),
 PRIMARY KEY(patientUsername));`;
 
 const doctorsTable = `CREATE TABLE doctors(doctorUsername varchar(50), 
 firstName varchar(50), lastName varChar(50), middleInitial char, dob varchar(10), 
-sex char, ssn varchar(11), address varchar(200), city varchar(100) state varchar(20), zipcode varchar(10),
+sex char, ssn int, address varchar(200), city varchar(100) state varchar(20), zipcode varchar(10),
 phoneNumber int, email varchar(100), password varchar(100), npi int,
 PRIMARY KEY(doctorUsername));`;
 
