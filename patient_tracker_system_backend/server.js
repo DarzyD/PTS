@@ -1,8 +1,10 @@
-import {test, initializeDatabase, dropTables} from './databaseConn.js';
+import express from "express";
 import dotenv from "dotenv";
+import loginRouter from "./routes/loginRoute.js";
+const app = express();
+app.use(express.json()); //to read request body
+
+//use routes
+app.use("/login", loginRouter);
+
 dotenv.config();
-test();
-// initializeDatabase();
-// console.log("Database initialized");
-// dropTables();
-// console.log("Tables dropped");
