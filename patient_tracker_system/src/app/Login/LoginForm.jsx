@@ -2,31 +2,27 @@
 import React, {useState} from "react";
 import {Button} from "@nextui-org/react";
 import Link from "next/link";
-import {signIn, useSession} from "next-auth/react"
-import Router from 'next/router'
+import {signIn} from "next-auth/react";
+import './loginpage.css';
 
 export const LoginForm = () => {
-    const {data: session} = useSession();
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [invalid, setInvalid] = useState(false);
-
-    module.exports = {
-        reactStrictMode: true,
-        env: {
-            NEXT_PUBLIC_GOOGLE_ID: process.env.NEXT_PUBLIC_GOOGLE_ID,
-        }
-    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         signIn("credentials", {
             username: name,
             password: password,
+            callbackUrl: '/Dashboard',
             redirect: false
         }).then((res) => {
+            console.log(res);
+            console.log(res.ok);
             if (res.ok) {
-                history.go('/Dashboard');
+                history.pushState({},"", "/Dashboard");
+                history.go();
             } else {
                 setInvalid(true);
             }
@@ -53,15 +49,17 @@ export const LoginForm = () => {
             />
             {invalid && <p color="red">Invalid Credentials</p>}
             <a href="">Forgot Username or Password?</a>
-            <Button id="login-button" type="submit" onClick={handleSubmit}>
+            <Button className="formButton" id="login-button" type="submit" onClick={handleSubmit}>
                 Login
             </Button>
             <Link
+                className="formButton"
                 href="../Register"
                 id="register-button"
                 style={{
                     backgroundColor: 'rgb(65, 194, 151)',
                     border: '1px solid rgb(90, 190, 157)',
+                    textAlign: "center"
                 }}
             >
                 No account? Register Here!

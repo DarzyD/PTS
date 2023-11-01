@@ -21,3 +21,17 @@ body {
     display: flex;
     justify-content: center;
 }
+
+
+  /* Set a style for all buttons */
+.formButton {
+    background-color: pink;
+    color: black;
+    font-size: large;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: 1px solid rgb(195, 130, 140);
+    cursor: pointer;
+    width: 100%;
+    text-align: ce;
+}

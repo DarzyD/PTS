@@ -9,26 +9,70 @@ export const authOptions = {
             credentials: {
                 username: {label : "Username", type: "text"},
                 password: {label : "Password", type: "password"},
+                first: {label : "Username", type: "text"},
+                last: {label : "Username", type: "text"},
+                ssn: {label : "Username", type: "text"},
+                dob: {label : "Username", type: "text"},
+                address: {label : "Username", type: "text"},
+                city: {label : "Username", type: "text"},
+                state: {label : "Username", type: "text"},
+                zip: {label : "Username", type: "text"},
+                phone: {label : "Username", type: "text"},
+                email: {label : "Username", type: "text"},
+                gender:{label : "Username", type: "text"},
+                register: {type: "checkbox"}
             },
             async authorize(credentials, _req) {
-                const res = await fetch("http://localhost:3001/login", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        username: credentials?.username,
-                        password: credentials?.password
+                if (credentials?.register) {
+                    const res = await fetch("http://localhost:3001/register", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            username: credentials?.username,
+                            password: credentials?.password,
+                            first: credentials?.first,
+                            last: credentials?.last,
+                            ssn: credentials?.ssn,
+                            dob: credentials?.dob,
+                            address: credentials?.address,
+                            city: credentials?.city,
+                            zip: credentials?.zip,
+                            phone: credentials?.phone,
+                            email: credentials?.email,
+                            gender: credentials?.gender
+                        })
                     })
-                })
-                const resCode = res.status;
-                const user = await res.json();
-                console.log(resCode);
-                console.log(user);
-                if (user && resCode == 200) {
-                    return user;
+                    const resCode = res.status;
+                    const user = await res.json();
+                    console.log(resCode);
+                    console.log(user);
+                    if (user && resCode == 200) {
+                        return user;
+                    } else {
+                        return null;
+                    }
                 } else {
-                    return null;
+                    const res = await fetch("http://localhost:3001/login", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            username: credentials?.username,
+                            password: credentials?.password
+                        })
+                    })
+                    const resCode = res.status;
+                    const user = await res.json();
+                    console.log(resCode);
+                    console.log(user);
+                    if (user && resCode == 200) {
+                        return user;
+                    } else {
+                        return null;
+                    }
                 }
             }
         })
@@ -44,9 +88,6 @@ export const authOptions = {
             session.user = token.user;
             return session;
         },
-    },
-    pages: {
-        signIn:"/Login" 
     }
 }
 
