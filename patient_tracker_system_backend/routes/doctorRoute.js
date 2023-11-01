@@ -20,7 +20,7 @@ doctorRouter.get("/", async (req, res) => {
         }
     ]
 
-    const requestBody = await req.json();
+    // const requestBody = await req.json();
     if (!req.query?.doctor) {
         res.status(200);
         res.json(docs); //return all the doctors
