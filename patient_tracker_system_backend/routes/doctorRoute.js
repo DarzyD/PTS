@@ -10,18 +10,18 @@ const doctorRouter = express.Router();
 doctorRouter.get("/", async (req, res) => {
     const docs = [
         {
-            name: "Fred Flintstone", email: "FFlint@doc.doc", phone:"123-555-4532"
+            name: "Fred Flintstone", email: "FFlint@doc.doc", phone:"123-555-4532", username: "fredflint"
         },
         {
-            name: "Laura Hardwater", email: "LH@doc.doc", phone:"123-555-7753"
+            name: "Laura Hardwater", email: "LH@doc.doc", phone:"123-555-7753", username: "Lhard"
         },
         {
-            name: "Nan Naime", email: "nnaime@doc.doc", phone:"123-555-9874"
+            name: "Nan Naime", email: "nnaime@doc.doc", phone:"123-555-9874", username: "nanna"
         }
     ]
 
     // const requestBody = await req.json();
-    if (!req.query?.doctor) {
+    if (!req.query?.user) {
         res.status(200);
         res.json(docs); //return all the doctors
     } else {
@@ -34,14 +34,13 @@ doctorRouter.get("/", async (req, res) => {
 //@route POST /doctor
 //@access register
 doctorRouter.post("/", async (req, res) => {
-    const {user, doc: {username: docUsername} } =  req.body;
+    const {user, doctor: {username: docUsername} } =  req.body;
     res.set('Content-Type', 'application/json');
 
     
     //TODO connect to db and try to change user's doc to docUsername
 
     if (/*success from db add row*/ true) {
-        console.log("good");
         res.status(200);
     } else {
         res.status(401)

@@ -46,8 +46,6 @@ export const authOptions = {
                     })
                     const resCode = res.status;
                     const user = await res.json();
-                    console.log(resCode);
-                    console.log(user);
                     if (user && resCode == 200) {
                         return user;
                     } else {
@@ -66,8 +64,6 @@ export const authOptions = {
                     })
                     const resCode = res.status;
                     const user = await res.json();
-                    console.log(resCode);
-                    console.log(user);
                     if (user && resCode == 200) {
                         return user;
                     } else {

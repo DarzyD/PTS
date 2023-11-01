@@ -13,6 +13,7 @@ export const DoctorCard = () => {
     const {data: session} = useSession();
 
 
+
     const useConfirm = (message, onConfirm, onAbort)  => {
     const confirm = () => {
         if (window.confirm(message)) {
@@ -25,16 +26,16 @@ export const DoctorCard = () => {
     }
 
     const postNewDoctor = async (doc = {}) => {
-        const {username: docUsername} = doc;
+        const {username: docUsername = "none"} = doc;
         const response = await fetch("http://localhost:3001/doctor", {
             method: "Post",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: {
+            body: JSON.stringify({
                 user: session?.user?.username, 
                 doctor: docUsername
-            }
+            })
         })
         if (response.ok) {
             setMyDoctor(doc);
@@ -42,7 +43,7 @@ export const DoctorCard = () => {
     }
 
     useEffect(() => { //onPageLoad
-        
+        if (session?.user?.username && (!Object.keys(myDoctor).length || !doctors.length)) {
         const res = fetch("http://localhost:3001/doctor", {
             method: "GET",
             headers: {
@@ -50,9 +51,9 @@ export const DoctorCard = () => {
             },
             
         })
-        res.then(() => {
-            const resCode = res.status;
-            res.json().then((doctors) => {
+        res.then((response) => {
+            const resCode = response.status;
+            response.json().then((doctors) => {
                 if (resCode == 200 && doctors?.length) {
                     setDoctors(doctors)
                 }}
@@ -65,15 +66,16 @@ export const DoctorCard = () => {
                 "Content-Type": "application/json"
             }            
         })
-        res2.then(() => {
-            const res2Code = res2.status;
-            res2.json().then((doc) => {
+        res2.then((response) => {
+            const res2Code = response.status;
+            response.json().then((doc) => {
                 if (res2Code == 200 && doc) {
-                    setDoctors(doc);
+                    setMyDoctor(doc);
                 }
             })
         })
-    }, [session?.user?.name])
+    }
+    }, [session])
 
 
     return (
@@ -94,7 +96,7 @@ export const DoctorCard = () => {
                     {doctors.map((doc) => 
                         {
                             return (
-                            <Button type="link" onClick={useConfirm("Do you want to switch your primary doctor?", () => postNewDoctor(doc))}>
+                            <Button key={doc.username} type="link" onClick={useConfirm("Do you want to switch your primary doctor?",  () => postNewDoctor(doc), () => {})}>
                                 {doc?.name}
                             </Button>
                             );

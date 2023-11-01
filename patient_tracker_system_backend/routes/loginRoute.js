@@ -19,7 +19,6 @@ loginRouter.post("/", async (req, res) => {
     res.set('Content-Type', 'application/json');
 
     if (username == "hello") {
-        console.log("good");
         res.status(200);
         res.json({first: "Hello", last: "World", username: username});
     } else {

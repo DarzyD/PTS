@@ -18,8 +18,6 @@ export const LoginForm = () => {
             callbackUrl: '/Dashboard',
             redirect: false
         }).then((res) => {
-            console.log(res);
-            console.log(res.ok);
             if (res.ok) {
                 history.pushState({},"", "/Dashboard");
                 history.go();
