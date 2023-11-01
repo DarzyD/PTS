@@ -25,7 +25,6 @@ export const RegisterForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(name, password, gender);
         setInvalid("");
         verifyInfo() && (signIn("credentials", {
             username: name,
@@ -45,7 +44,6 @@ export const RegisterForm = () => {
             redirect: false,
             callbackUrl: '/Dashboard',
         }).then((res) => {
-            console.log(res);
             if (res.ok) {
                 history.pushState({},"", "/Dashboard");
                 history.go();

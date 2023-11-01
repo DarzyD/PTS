@@ -21,7 +21,6 @@ registerRouter.post("/", async (req, res) => {
     //TODO connect to db and try to add row
 
     if (/*success from db add row*/ true) {
-        console.log("good");
         res.status(200);
         res.json({first: first, last: last, username: username});
     } else {
