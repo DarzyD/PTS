@@ -21,7 +21,7 @@ loginRouter.post("/", async (req, res) => {
     if (username == "hello") {
         console.log("good");
         res.status(200);
-        res.json({first: "Hello", last: "World"});
+        res.json({first: "Hello", last: "World", username: username});
     } else {
         res.status(401)
         res.json({})
