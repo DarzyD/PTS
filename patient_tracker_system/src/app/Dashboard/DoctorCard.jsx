@@ -1,7 +1,7 @@
 'use client';
 import react, {useState, useEffect} from 'react';
 import {Card, CardBody, CardHeader, Divider} from "@nextui-org/react";
-
+import {Button} from "@nextui-org/react";
 import { useSession } from 'next-auth/react';
 
 export const DoctorCard = () => {
