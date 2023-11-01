@@ -2,10 +2,14 @@
 import React, {useState} from "react";
 import {Button} from "@nextui-org/react";
 import Link from "next/link";
+import {signIn, useSession} from "next-auth/react"
+import Router from 'next/router'
 
-export const LoginForm = ({setLoggedIn}) => {
+export const LoginForm = () => {
+    const {data: session} = useSession();
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+    const [invalid, setInvalid] = useState(false);
 
     module.exports = {
         reactStrictMode: true,
@@ -16,10 +20,17 @@ export const LoginForm = ({setLoggedIn}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(name, password);
-        console.log(NEXT_PUBLIC_GOOGLE_ID);
-        //TODO: verify login info here
-        setLoggedIn(true);
+        signIn("credentials", {
+            username: name,
+            password: password,
+            redirect: false
+        }).then((res) => {
+            if (res.ok) {
+                history.go('/Dashboard');
+            } else {
+                setInvalid(true);
+            }
+        });
     }
 
     return (
@@ -40,6 +51,7 @@ export const LoginForm = ({setLoggedIn}) => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
             />
+            {invalid && <p color="red">Invalid Credentials</p>}
             <a href="">Forgot Username or Password?</a>
             <Button id="login-button" type="submit" onClick={handleSubmit}>
                 Login

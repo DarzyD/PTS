@@ -18,23 +18,23 @@ export const ProfileDropDown = () => {
             case "profile" :
                 break;
             case "logout":
-                signOut();
+                signOut({ callbackUrl: '/'});
                 break;
             default:
         }
     }
 
     return (
-        <Dropdown  hidden={!session}>
+        <Dropdown  hidden={!session?.user}>
             <DropdownTrigger>
                 <Button style={{margin: 0}}>
-                    <Avatar src="../../profile.jpg" />
+                    <Avatar src="/profile.jpg" />
                 </Button>
             </DropdownTrigger>
             <DropdownMenu color="#333333" variant="Faded" onAction={handleMenuClick}>
                 <DropdownItem key="profile">Edit Profile</DropdownItem>
                 <DropdownItem key="logout">
-                    <Link href={"/"}>Log Out</Link>
+                    <Button type="link">Log Out</Button>
                 </DropdownItem>
             </DropdownMenu>
         </Dropdown>
