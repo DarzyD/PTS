@@ -107,8 +107,7 @@ export const RegisterForm = () => {
     }
 
     return (
-        <form style={{display: "flex", flexDirection: "column", alignItems: "center", alignSelf: "center"}}>
-            <h2>Register Form</h2>
+        <form className = "register-form" style={{display: "flex", flexDirection: "column", alignItems: "center", alignSelf: "center"}}>
             <div>
                 <label for="firstname"><b>First Name</b></label>
                 <input 
@@ -142,8 +141,8 @@ export const RegisterForm = () => {
                 />
 
                 <div>
-                <h3>Sex</h3>
-                    <label>
+                <b id= "sex">Sex</b>
+                    <label id = "sexlabel">
                         <input
                         type="radio"
                         value="Male"
@@ -153,7 +152,7 @@ export const RegisterForm = () => {
                         />
                         Male
                     </label>
-                    <label>
+                    <label id = "sexlabel">
                         <input
                         type="radio"
                         value="Female"

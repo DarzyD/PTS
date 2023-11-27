@@ -7,7 +7,7 @@ export default function Page() {
         <div className="centerDiv">
             <Card className="card" style={{maxWidth: "50%"}}>
                 <CardHeader>
-                    <h2>Log In</h2>
+                    <h2>Register</h2>
                 </CardHeader>
                 <Divider style={{width: "80%"}}/>
                 <CardBody>
