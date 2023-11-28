@@ -1,0 +1,16 @@
+.custom-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    border: 2px solid #131313; /* Add vertical and horizontal borders */
+    padding: 3px; /* Adjust padding as needed */
+    text-align: left; /* Center the text within cells */
+  }
+  
+  .custom-table th {
+    background-color: #f2f2f2; /* Add a background color to header cells */
+    font-weight: bold; /* Make header text bold */
+  }

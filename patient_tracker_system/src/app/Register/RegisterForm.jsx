@@ -25,7 +25,6 @@ export const RegisterForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(name, password, gender);
         setInvalid("");
         verifyInfo() && (signIn("credentials", {
             username: name,
@@ -43,11 +42,10 @@ export const RegisterForm = () => {
             gender: gender,
             register: true,
             redirect: false,
-            callbackUrl: '/Dashboard',
+            callbackUrl: '/PatientDashboard',
         }).then((res) => {
-            console.log(res);
             if (res.ok) {
-                history.pushState({},"", "/Dashboard");
+                history.pushState({},"", "/PatientDashboard");
                 history.go();
             } else {
                 setInvalid("could not create your account");

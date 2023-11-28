@@ -46,8 +46,6 @@ export const authOptions = {
                     })
                     const resCode = res.status;
                     const user = await res.json();
-                    console.log(resCode);
-                    console.log(user);
                     if (user && resCode == 200) {
                         return user;
                     } else {
@@ -66,8 +64,6 @@ export const authOptions = {
                     })
                     const resCode = res.status;
                     const user = await res.json();
-                    console.log(resCode);
-                    console.log(user);
                     if (user && resCode == 200) {
                         return user;
                     } else {
@@ -86,7 +82,7 @@ export const authOptions = {
         },
         async session({ session, token }) {
             session.user = token.user;
-            return session;
+            return Promise.resolve(session);
         },
     }
 }
