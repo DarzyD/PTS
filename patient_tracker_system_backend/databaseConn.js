@@ -9,21 +9,21 @@ export default { db };
 
 const patientsTable = `CREATE TABLE patients(patientUsername varchar(50), 
 firstName varchar(50), lastName varChar(50), middleInitial char, dob varchar(10), 
-sex char, ssn int, address varchar(200), city varchar(100) state varchar(20), zipcode varchar(10),
-phoneNumber int, email varchar(100), password varchar(100), doctorUsername varchar(50) REFERENCES doctor(doctorUsername),
+sex char, ssn int, address varchar(200), city varchar(100), state varchar(20), zipcode varchar(10),
+phoneNumber int, email varchar(100), password varchar(100), doctorUsername varchar(50) REFERENCES doctors(doctorUsername),
 PRIMARY KEY(patientUsername));`;
 
 const doctorsTable = `CREATE TABLE doctors(doctorUsername varchar(50), 
 firstName varchar(50), lastName varChar(50), middleInitial char, dob varchar(10), 
-sex char, ssn int, address varchar(200), city varchar(100) state varchar(20), zipcode varchar(10),
+sex char, ssn int, address varchar(200), city varchar(100), state varchar(20), zipcode varchar(10),
 phoneNumber int, email varchar(100), password varchar(100), npi int,
 PRIMARY KEY(doctorUsername));`;
 
-const appointmentsTable = `CREATE TABLE appointments(patientUsername varchar(50) REFERENCES patient(patientUsername), 
-doctorUsername varchar(50) REFERENCES doctor(doctorUsername),
+const appointmentsTable = `CREATE TABLE appointments(patientUsername varchar(50) REFERENCES patients(patientUsername), 
+doctorUsername varchar(50) REFERENCES doctors(doctorUsername),
 time int, date varchar(10));`;
 
-const documentsTable = `CREATE TABLE documents(patientUsername varchar(50) REFERENCES patient(patientUsername), 
+const documentsTable = `CREATE TABLE documents(patientUsername varchar(50) REFERENCES patients(patientUsername), 
 docid int, documentName varchar(100), linkToDoc varchar(100),
 PRIMARY KEY(docid));`;
 // export function test(){

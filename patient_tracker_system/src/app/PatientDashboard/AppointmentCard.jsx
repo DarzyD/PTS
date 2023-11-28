@@ -4,14 +4,11 @@ import {Card, CardBody, CardHeader, Divider} from "@nextui-org/react";
 import {Button} from "@nextui-org/react";
 import { useSession } from 'next-auth/react';
 
-export const DoctorCard = () => {
+export const AppointmentCard = () => {
 
-    
-    const [doctors, setDoctors] = useState([]);
-    const [myDoctor, setMyDoctor] = useState({});
+    const [myAppointments, setDoctors] = useState([]);
 
     const {data: session} = useSession();
-
 
 
     const useConfirm = (message, onConfirm, onAbort)  => {
@@ -26,16 +23,16 @@ export const DoctorCard = () => {
     }
 
     const postNewDoctor = async (doc = {}) => {
-        const {username: docUsername = "none"} = doc;
+        const {username: docUsername} = doc;
         const response = await fetch("http://localhost:3001/doctor", {
             method: "Post",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
+            body: {
                 user: session?.user?.username, 
                 doctor: docUsername
-            })
+            }
         })
         if (response.ok) {
             setMyDoctor(doc);
@@ -43,7 +40,7 @@ export const DoctorCard = () => {
     }
 
     useEffect(() => { //onPageLoad
-        if (session?.user?.username && (!Object.keys(myDoctor).length || !doctors.length)) {
+        
         const res = fetch("http://localhost:3001/doctor", {
             method: "GET",
             headers: {
@@ -51,9 +48,9 @@ export const DoctorCard = () => {
             },
             
         })
-        res.then((response) => {
-            const resCode = response.status;
-            response.json().then((doctors) => {
+        res.then(() => {
+            const resCode = res.status;
+            res.json().then((doctors) => {
                 if (resCode == 200 && doctors?.length) {
                     setDoctors(doctors)
                 }}
@@ -66,42 +63,28 @@ export const DoctorCard = () => {
                 "Content-Type": "application/json"
             }            
         })
-        res2.then((response) => {
-            const res2Code = response.status;
-            response.json().then((doc) => {
+        res2.then(() => {
+            const res2Code = res2.status;
+            res2.json().then((doc) => {
                 if (res2Code == 200 && doc) {
-                    setMyDoctor(doc);
+                    setDoctors(doc);
                 }
             })
         })
-    }
-    }, [session])
+    }, [session?.user?.name])
 
 
     return (
             <Card className="card" style={{flexGrow: 1}}>
                 <CardHeader>
-                    <h2>Doctor</h2>
+                    <h2>Future Apointments:</h2>
+                    <Button type="link" onClick={useConfirm("Do you want to make a new appointment?", () => newAppointment())}>
+                        New Appointment
+                    </Button>
                 </CardHeader>
                 <Divider style={{width: "80%"}}/>
                 <CardBody>
-                    <h1>My Doctor:</h1>
-                    <p>
-                        {myDoctor?.name}
-                        <br/>
-                        {myDoctor?.email}
-                        <br/>
-                        {myDoctor?.phone}
-                    </p>
-                    {doctors.map((doc) => 
-                        {
-                            return (
-                            <Button key={doc.username} type="link" onClick={useConfirm("Do you want to switch your primary doctor?",  () => postNewDoctor(doc), () => {})}>
-                                {doc?.name}
-                            </Button>
-                            );
-                        }
-                    )}
+                    <h1>Appointments</h1>
                 </CardBody>
             </Card>
     )

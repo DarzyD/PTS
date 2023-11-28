@@ -15,12 +15,21 @@ export const LoginForm = () => {
         signIn("credentials", {
             username: name,
             password: password,
-            callbackUrl: '/Dashboard',
+            callbackUrl: '/PatientDashboard',
             redirect: false
         }).then((res) => {
+            console.log(res);
             if (res.ok) {
-                history.pushState({},"", "/Dashboard");
-                history.go();
+                if(name == "testAdmin") {
+                    history.pushState({},"", "/AdminDashboard");
+                    history.go();
+                } else if (name == "testDoctor") {
+                    history.pushState({},"", "/DoctorDashboard");
+                    history.go();
+                }else {
+                    history.pushState({},"", "/PatientDashboard");
+                    history.go();
+                }
             } else {
                 setInvalid(true);
             }

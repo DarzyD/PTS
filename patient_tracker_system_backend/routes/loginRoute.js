@@ -17,11 +17,16 @@ loginRouter.get("/", async (req, res) => {
 loginRouter.post("/", async (req, res) => {
     const {username, password} =  req.body;
     res.set('Content-Type', 'application/json');
-
+    console.log(req.body)
     if (username == "hello") {
         res.status(200);
-        res.json({first: "Hello", last: "World", username: username});
-    } else {
+        res.json({first: "Hello", last: "World", username: username, userType: "patient"});
+    } else if(username == "testDoctor"){
+        res.status(200).json({first: "Test", last: "Doctor", username: username, userType: "doctor"});
+    } else if (username == "testAdmin"){
+        res.status(200);
+        res.json({first: "Test", last: "Admin", username: username, userType: "admin"});
+    }else {
         res.status(401)
         res.json({})
     }

@@ -42,10 +42,10 @@ export const RegisterForm = () => {
             gender: gender,
             register: true,
             redirect: false,
-            callbackUrl: '/Dashboard',
+            callbackUrl: '/PatientDashboard',
         }).then((res) => {
             if (res.ok) {
-                history.pushState({},"", "/Dashboard");
+                history.pushState({},"", "/PatientDashboard");
                 history.go();
             } else {
                 setInvalid("could not create your account");
