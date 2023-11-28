@@ -4,6 +4,7 @@ import {Button} from "@nextui-org/react";
 import Link from "next/link";
 import {signIn} from "next-auth/react";
 import './loginpage.css';
+import { getSession } from "next-auth/react";
 
 export const LoginForm = () => {
     const [name, setName] = useState('');
@@ -17,13 +18,14 @@ export const LoginForm = () => {
             password: password,
             callbackUrl: '/PatientDashboard',
             redirect: false
-        }).then((res) => {
-            console.log(res);
+        }).then(async (res) => {
+            const session = await getSession();
+            const userType = session?.user?.userType;
             if (res.ok) {
-                if(name == "testAdmin") {
+                if(userType == "admin") {
                     history.pushState({},"", "/AdminDashboard");
                     history.go();
-                } else if (name == "testDoctor") {
+                } else if (userType == "doctor") {
                     history.pushState({},"", "/DoctorDashboard");
                     history.go();
                 }else {

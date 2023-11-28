@@ -50,9 +50,9 @@ export const DoctorCard = () => {
             },
             
         })
-        res.then(() => {
-            const resCode = res.status;
-            res.json().then((doctors) => {
+        res.then((response) => {
+            const resCode = response.status;
+            response.json().then((doctors) => {
                 if (resCode == 200 && doctors?.length) {
                     setDoctors(doctors)
                 }}
@@ -65,11 +65,11 @@ export const DoctorCard = () => {
                 "Content-Type": "application/json"
             }            
         })
-        res2.then(() => {
-            const res2Code = res2.status;
-            res2.json().then((doc) => {
+        res2.then((response) => {
+            const res2Code = response.status;
+            response.json().then((doc) => {
                 if (res2Code == 200 && doc) {
-                    setDoctors(doc);
+                    setMyDoctor(doc);
                 }
             })
         })
@@ -94,7 +94,7 @@ export const DoctorCard = () => {
                     {doctors.map((doc) => 
                         {
                             return (
-                            <Button type="link" onClick={useConfirm("Do you want to switch your primary doctor?", () => postNewDoctor(doc))}>
+                            <Button type="link" key={doc?.name} onClick={useConfirm("Do you want to switch your primary doctor?", () => postNewDoctor(doc))}>
                                 {doc?.name}
                             </Button>
                             );

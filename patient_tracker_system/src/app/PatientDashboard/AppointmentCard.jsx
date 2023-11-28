@@ -48,9 +48,9 @@ export const AppointmentCard = () => {
             },
             
         })
-        res.then(() => {
-            const resCode = res.status;
-            res.json().then((doctors) => {
+        res.then((response) => {
+            const resCode = response.status;
+            response.json().then((doctors) => {
                 if (resCode == 200 && doctors?.length) {
                     setDoctors(doctors)
                 }}
@@ -63,9 +63,9 @@ export const AppointmentCard = () => {
                 "Content-Type": "application/json"
             }            
         })
-        res2.then(() => {
-            const res2Code = res2.status;
-            res2.json().then((doc) => {
+        res2.then((response) => {
+            const res2Code = response.status;
+            response.json().then((doc) => {
                 if (res2Code == 200 && doc) {
                     setDoctors(doc);
                 }
