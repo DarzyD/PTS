@@ -100,40 +100,40 @@ export const Schedule = () => {
             "appointments":[
                 {
                     "doctorUsername": "testDoctor",
-                    "date": "2023-12-01",
+                    "date": "2023-12-10",
                     "time": "10:00AM",
                     "patientUsername": "testPatientOne"
                 },
                 {
                     "doctorUsername": "testDoctor",
-                    "date": "2023-12-01",
+                    "date": "2023-12-10",
                     "time": "11:00AM",
                     "patientUsername": "testPatientTwo"
         
                 },
                 {
                     "doctorUsername": "testDoctor",
-                    "date": "2023-12-01",
+                    "date": "2023-12-10",
                     "time": "12:00PM",
                     "patientUsername": "testPatientThree"
                 },
                 {
                     "doctorUsername": "testDoctor",
-                    "date": "2023-12-02",
+                    "date": "2023-12-11",
                     "time": "10:00AM",
                     "patientUsername": "testPatientOne"
         
                 },
                 {
                     "doctorUsername": "testDoctor",
-                    "date": "2023-12-02",
+                    "date": "2023-12-11",
                     "time": "11:00AM",
                     "patientUsername": "testPatientTwo"
         
                 },
                 {
                     "doctorUsername": "testDoctor",
-                    "date": "2023-12-03",
+                    "date": "2023-12-12",
                     "time": "12:00PM",
                     "patientUsername": "testPatientThree"
                 }    
@@ -185,32 +185,46 @@ export const Schedule = () => {
             setAppointments(appointmentsForTheWeek);
         });
     }, [session?.user?.name]);
+
+    function formatDate(date){
+        // Add time 'T00:00' to treat the date as local
+        let appointmentDate = new Date(date + 'T00:00');        // Getting the month, day, and year
+        let month = appointmentDate.getMonth() + 1; // getMonth() returns 0-11
+        let day = appointmentDate.getDate();
+        let year = appointmentDate.getFullYear();
+
+        // Formatting to MM/DD/YYYY
+        let formattedDate = `${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')}/${year}`;
+
+        // Use formattedDate where you need the date in MM/DD/YYYY format
+        return formattedDate;
+    }
   return (
     <>
         
         <div className="container">
-            <center><h1>Schedule this week ({appointments.length > 0 ? `${appointments[0].date} to ${appointments[appointments.length - 1].date}` : ''})</h1></center>
+            <center><h1>Schedule this week ({appointments.length > 0 ? `${formatDate(appointments[0].date)} to ${formatDate(appointments[appointments.length - 1].date)}` : ''})</h1></center>
             <center>
-                <div className="d-flex flex-wrap" style={{border: '5px red solid'}}>
-                    {appointments.map((appointment) => 
+                <div className="d-flex flex-wrap" style={{border: '5px gray solid'}}>
+                    {appointments.map((day) => 
                         {
                             return (
-                                <Card key={appointment?.dayOfWeek} className="card" style={{flexGrow: 1, width:'30%', margin:'1%'}}>
+                                <Card key={day?.dayOfWeek} className="card" style={{flexGrow: 1, width:'30%', margin:'1%'}}>
                                     <CardHeader>
-                                        <h2> {appointment?.dayOfWeek}</h2>
+                                        <h2> {day?.dayOfWeek} {formatDate(day?.date)}</h2>
                                     </CardHeader>
                                     <Divider style={{width: "80%"}}/>
-                                    <CardBody> 
-                                        {appointment.appointments.length > 0 ? 
+                                    <CardBody className="px-3 py-0 text-small text-default-400"> 
+                                        {day.appointments.length > 0 ? 
                                             (
-                                                appointment.appointments.map((appointment) => {
-                                                return (
-                                                    //TODO: MAKE THIS A COMPONENT!
-                                                    <div key={appointment?.time}>
-                                                    <p>{appointment?.time}</p>
-                                                    <p>{appointment?.patientUsername}</p>
-                                                    </div>
-                                                );
+                                                day.appointments.map((appointment) => {
+                                                    return (
+                                                        //TODO: MAKE THIS A COMPONENT!
+                                                        <div key={appointment?.time}>
+                                                        <p>{appointment?.time}</p>
+                                                        <p>{appointment?.patientUsername}</p>
+                                                        </div>
+                                                    );
                                                 })
                                             )   
                                             : 'No appointments on this day'}

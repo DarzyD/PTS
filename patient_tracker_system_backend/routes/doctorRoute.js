@@ -51,4 +51,40 @@ doctorRouter.post("/", async (req, res) => {
     //TODO check if password matches hashed password in database
 });
 
+doctorRouter.post("/appointments", async (req, res) => { 
+    const {username, password} =  req.body;
+    db.connect(function(err) {
+        if(err) {
+          return console.error('could not connect to postgres', err);
+        }else{
+            db.query('SELECT * FROM DOCTORS;', function(err, result) {
+                if(err) {
+                  return console.error('error running query', err);
+                }
+                console.log(result);
+                db.end();
+              });
+        }
+    });
+});
+//for testing
+doctorRouter.post("/test/appointments", async (req, res) => { 
+    const {username, password} =  req.body;
+    let dbRes = await db.query('SELECT * FROM DOCTORS;');
+    console.log(dbRes);
+    const doctorAppointmentQuery = `SELECT * FROM APPOINTMENTS WHERE doctorusername = $1;`;
+    const values = [username];
+    console.log(username);
+    dbRes = await db.query(doctorAppointmentQuery, values);
+    console.log("APPOINTMENTS")
+    console.log(dbRes);
+    await db.end();
+    res.status(200).send("test");
+    // const text = 'INSERT INTO users(name, email) VALUES($1, $2) RETURNING *'
+    // const values = ['brianc', 'brian.m.carlson@gmail.com']
+ 
+    // const res = await client.query(text, values)
+    // console.log(res.rows[0])
+    // // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
+});
 export default doctorRouter;
