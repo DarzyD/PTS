@@ -100,40 +100,40 @@ export const Schedule = () => {
             "appointments":[
                 {
                     "doctorUsername": "testDoctor",
-                    "date": "2023-12-10",
+                    "date": "2023-12-13",
                     "time": "10:00AM",
                     "patientUsername": "testPatientOne"
                 },
                 {
                     "doctorUsername": "testDoctor",
-                    "date": "2023-12-10",
+                    "date": "2023-12-13",
                     "time": "11:00AM",
                     "patientUsername": "testPatientTwo"
         
                 },
                 {
                     "doctorUsername": "testDoctor",
-                    "date": "2023-12-10",
+                    "date": "2023-12-13",
                     "time": "12:00PM",
                     "patientUsername": "testPatientThree"
                 },
                 {
                     "doctorUsername": "testDoctor",
-                    "date": "2023-12-11",
+                    "date": "2023-12-14",
                     "time": "10:00AM",
                     "patientUsername": "testPatientOne"
         
                 },
                 {
                     "doctorUsername": "testDoctor",
-                    "date": "2023-12-11",
+                    "date": "2023-12-14",
                     "time": "11:00AM",
                     "patientUsername": "testPatientTwo"
         
                 },
                 {
                     "doctorUsername": "testDoctor",
-                    "date": "2023-12-12",
+                    "date": "2023-12-15",
                     "time": "12:00PM",
                     "patientUsername": "testPatientThree"
                 }    
