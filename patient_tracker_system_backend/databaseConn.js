@@ -1,11 +1,15 @@
 import pg from "pg";
 import dotenv from "dotenv";
 dotenv.config();
-
 const dbURL = `postgres://${process.env.USER}:${process.env.PASS}@suleiman.db.elephantsql.com/${process.env.USER}`;
 
-export const db = new pg.Client(dbURL);
-export default { db };
+const db = new pg.Client(dbURL);
+db.connect(function(err) {
+    if(err) {
+      return console.error('could not connect to postgres', err);
+    }
+});
+export default db;
 
 const patientsTable = `CREATE TABLE patients(patientUsername varchar(50), 
 firstName varchar(50), lastName varChar(50), middleInitial char, dob varchar(10), 

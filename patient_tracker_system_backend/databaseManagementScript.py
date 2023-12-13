@@ -84,6 +84,39 @@ def create_main_tables():
     curr.execute(appointmentsTable)
     curr.execute(documentsTable)
 
+#takes username returns the user object
+def getUserByUsername(username):
+    user_tables = [ "patients", "doctors"]
+
+    #iterate
+    for table_name in user_tables:
+        query = f"SELECT * FROM {table_name} WHERE {table_name[:-1]}Username = %s"
+        curr.execute(query, (username,))
+        user = curr.fetchone()
+
+        if user:
+            return user
+    return None
+
+
+# Function to create an admin user (call this function once to insert the admin user)
+def create_admin_user():
+    admin_data = {
+        "adminUsername": "admin",
+        "firstName": "Admin",
+        "lastName": "User",
+        "password": "test",
+    }
+
+    query = """
+    INSERT INTO admins (adminUsername, firstName, lastName, password)
+    VALUES (%(adminUsername)s, %(firstName)s, %(lastName)s, %(password)s)
+    """
+    curr.execute(query, admin_data)
+
+def addingPatient(username):
+    curr.execute("INSERT INTO patients(patientUsername, firstName, lastName, middleInitial, dob,sex,ssn,adddress,city,state,zipcode,phoneNumber, email, password, doctorUsername ")
+    
 
 delete_main_tables()
 create_main_tables()
