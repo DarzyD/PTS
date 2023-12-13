@@ -86,7 +86,7 @@ def create_main_tables():
 
 #takes username returns the user object
 def getUserByUsername(username):
-    user_tables = [ "patients", "doctors","admin"]
+    user_tables = [ "patients", "doctors"]
 
     #iterate
     for table_name in user_tables:

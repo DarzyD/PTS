@@ -10,7 +10,6 @@ export const AppointmentCard = () => {
 
     const {data: session} = useSession();
 
-
     const useConfirm = (message, onConfirm, onAbort)  => {
     const confirm = () => {
         if (window.confirm(message)) {
@@ -22,6 +21,7 @@ export const AppointmentCard = () => {
     return confirm;
     }
 
+    //testing with database format to see if information are displayed correctly 
     const fetchAppointments = async () => {
         //mimicking a fetch request
         const testData = {
@@ -130,9 +130,9 @@ export const AppointmentCard = () => {
 
     const newAppointment = () => {
         // Navigate to the new appointment page
-        history.push('/create-appointment'); // Replace with your desired route
+        history.pushState({},"", "./PatientDashboard/NewAppt");
+        history.go();
     };
-
 
     return (
             <Card className="card" style={{flexGrow: 1}}>
@@ -140,6 +140,7 @@ export const AppointmentCard = () => {
                     <h2>Future Apointments:</h2>
                     <Button type="link" onClick={useConfirm("Do you want to make a new appointment?", () => newAppointment())}>
                         New Appointment
+                        
                     </Button>
                 </CardHeader>
                 <Divider style={{width: "80%"}}/>
