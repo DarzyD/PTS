@@ -1,0 +1,44 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Appointment</title>
+    <link rel="stylesheet" href="appt.css">
+</head>
+<body>
+<h1>New Appointment</h1>
+
+    <form id="appointmentForm">
+        <label for="doctor">Select Doctor:</label>
+        <select id="doctor" name="doctor">
+            <option value="doctor1">Doctor 1</option>
+            <option value="doctor2">Doctor 2</option>
+            <option value="doctor3">Doctor 3</option>
+        </select>
+
+        <label for="date">Select Date:</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="time">Select Time:</label>
+        <input type="time" id="time" name="time" required>
+
+        <button type="submit">Schedule Appointment</button>
+    </form>
+
+    <script>
+        document.getElementById('appointmentForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Retrieve selected values
+            const selectedDoctor = document.getElementById('doctor').value;
+            const selectedDate = document.getElementById('date').value;
+            const selectedTime = document.getElementById('time').value;
+
+            
+            alert('Appointment scheduled successfully!');
+        });
+    </script>
+
+</body>
+</html>

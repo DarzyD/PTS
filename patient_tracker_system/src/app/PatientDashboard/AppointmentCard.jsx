@@ -128,6 +128,11 @@ export const AppointmentCard = () => {
         fetchData();
     }, [session?.user?.name])
 
+    const newAppointment = () => {
+        // Navigate to the new appointment page
+        history.push('/create-appointment'); // Replace with your desired route
+    };
+
 
     return (
             <Card className="card" style={{flexGrow: 1}}>
