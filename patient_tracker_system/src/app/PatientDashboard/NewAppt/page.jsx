@@ -1,9 +1,12 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+// import db from '../../patient_tracker_system_backend/databaseConn.js';
+
 // import { useRouter } from 'next/router'; 
 
 import "./appt.css";
+import { DevBundlerService } from 'next/dist/server/lib/dev-bundler-service';
 
 export default function Page() {
     const [doctors, setDoctors] = useState([]);
@@ -65,6 +68,9 @@ export default function Page() {
         }
 
         // TODO Handling appointment submission
+        const text = "INSERT INTO appointments VALUES ($1,$2,$3,$4)";
+        const values = [ "patientUsername", selectedDoctor, selectedDate, selectedTime];
+        const result = db.query(text, values);
 
         //going back to previous page when submission is done corectly
         history.pushState({},"", "/PatientDashboard");
