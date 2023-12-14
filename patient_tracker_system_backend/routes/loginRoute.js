@@ -16,23 +16,53 @@ loginRouter.get("/", async (req, res) => {
 //@access Public
 loginRouter.post("/", async (req, res) => {
     const {username, password} =  req.body;
+    const patient = await db.query(
+        `Select 
+            firstname as first,
+            lastname as last,
+            patientUsername as username
+        from patients 
+        where 
+            patientUsername = $1 and 
+            password = $2`,
+    [username, password]);
+    const doc = await db.query(
+        `Select 
+            firstname as first,
+            lastname as last,
+            doctorUsername as username,
+            email,
+            phonenumber as phone
+        from doctors 
+        where 
+            doctorUsername = $1 and 
+            password = $2`,
+    [username, password]);
+    const admin = await db.query(
+        `Select
+            adminUsername
+        from admins 
+        where 
+            adminUsername = $1 and 
+            password = $2`,
+    [username, password]);
+
+
     res.set('Content-Type', 'application/json');
-    if (username == "hello") {
+    if ( patient.rowCount == 1) {
         res.status(200);
-        res.json({first: "Hello", last: "World", username: username, userType: "patient"});
-    } else if(username == "testDoctor"){
-        res.status(200).json({first: "Test", last: "Doctor", username: username, userType: "doctor"});
-    } else if (username == "testAdmin"){
+        res.json({...patient.rows[0], userType: "patient"});
+    } else if(doc.rowCount == 1){
+        res.status(200).json({...doc.rows[0], userType: "doctor"});
+    } else if (admin.rowCount == 1){
         res.status(200);
-        res.json({first: "Test", last: "Admin", username: username, userType: "admin"});
+        res.json({...admin.rows[0], userType: "admin"});
     }else {
         res.status(401)
         res.json({})
     }
 
-    //TODO check if username exists in doctor, patient, or admin table
 
-    //TODO check if password matches hashed password in database
 });
 
 export default loginRouter;

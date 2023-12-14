@@ -7,6 +7,7 @@ import "./registerpage.css";
 
 export const RegisterForm = () => {
     const [first, setFirst] = useState('');
+    const [middleInitial, setMiddleInitial] = useState('');
     const [last, setLast] = useState('');
     const [ssn, setSsn] = useState('');
     const [dob, setDob] = useState('');
@@ -27,7 +28,7 @@ export const RegisterForm = () => {
         e.preventDefault();
         setInvalid("");
         verifyInfo() && (signIn("credentials", {
-            username: name,
+            username: username,
             password: password,
             first: first,
             last: last,
@@ -61,6 +62,10 @@ export const RegisterForm = () => {
         }
         if (password === "") {
             setInvalid("Password is required");
+            return false;
+        }
+        if (middleInitial === "") {
+            setInvalid("Middle Initial is required");
             return false;
         }
         if (username === "") {
@@ -118,6 +123,15 @@ export const RegisterForm = () => {
                 onChange={(e) => setFirst(e.target.value)}
                 value={first}
                 required
+                />
+                <label for="middleInitial"><b>Middle Initial</b></label>
+                <input type="text"
+                placeholder="Enter Middle Initial" 
+                name="middleInitial" 
+                id="middleInitial" 
+                required
+                onChange={(e) => setMiddleInitial(e.target.value)}
+                value={middleInitial}
                 />
 
                 <label for="lastname"><b>Last Name</b></label>

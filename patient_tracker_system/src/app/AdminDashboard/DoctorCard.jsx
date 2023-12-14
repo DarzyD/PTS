@@ -24,9 +24,7 @@ export const DoctorCard = () => {
 
     const formatPhoneNumber = (phoneNumberString) => {
         const cleaned = ('' + phoneNumberString).replace(/\D+/g, '');
-        console.log(cleaned);
         const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-        console.log(match)
         if (match) {
             return '(' + match[1] + ') ' + match[2] + ' - ' + match[3];
         }
@@ -62,7 +60,6 @@ export const DoctorCard = () => {
                 <CardBody>
                     {doctors.map((doc) => 
                         {
-                            console.log(doc);
                             return (
                                 <p>
                                 {doc?.first} {doc?.last}

@@ -12,6 +12,15 @@ export const DoctorCard = () => {
 
     const {data: session} = useSession();
 
+    const formatPhoneNumber = (phoneNumberString) => {
+        const cleaned = ('' + phoneNumberString).replace(/\D+/g, '');
+        const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+        if (match) {
+            return '(' + match[1] + ') ' + match[2] + ' - ' + match[3];
+        }
+        return null;
+    }
+
 
     const useConfirm = (message, onConfirm, onAbort)  => {
     const confirm = () => {
@@ -25,18 +34,19 @@ export const DoctorCard = () => {
     }
 
     const postNewDoctor = async (doc = {}) => {
-        const {username: docUsername} = doc;
         const response = await fetch("http://localhost:3001/doctor", {
             method: "Post",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: {
+            body: JSON.stringify({
                 user: session?.user?.username, 
-                doctor: docUsername
-            }
+                doctor: doc
+            })
         })
+        console.log(response);
         if (response.ok) {
+            console.log(doc);
             setMyDoctor(doc);
         }
     }
@@ -65,38 +75,47 @@ export const DoctorCard = () => {
                 "Content-Type": "application/json"
             }            
         })
+
         res2.then((response) => {
-            const res2Code = response.status;
-            response.json().then((doc) => {
-                if (res2Code == 200 && doc) {
-                    setMyDoctor(doc);
-                }
-            })
+
+            if (response.ok) {
+                response.json().then((doc) => {
+                    console.log(doc);
+                    if (doc) {
+                        setMyDoctor(doc);
+                    }
+                })
+            }
         })
-    }, [session?.user?.name])
+    }, [session?.user?.username])
 
 
     return (
             <Card className="card" style={{flexGrow: 1}}>
                 <CardHeader>
-                    <h2>Doctor</h2>
-                </CardHeader>
-                <Divider style={{width: "80%"}}/>
-                <CardBody>
-                    <h1>My Doctor:</h1>
+                <h1>My Doctor</h1>
                     <p>
-                        {myDoctor?.name}
+                        {myDoctor?.first} {myDoctor?.last}
                         <br/>
                         {myDoctor?.email}
                         <br/>
-                        {myDoctor?.phone}
+                        {formatPhoneNumber(myDoctor?.phone)}
+                        <br/>
+                        {myDoctor?.npi}
                     </p>
+                </CardHeader>
+                <Divider style={{width: "80%"}}/>
+                <CardBody>
+                    <h1>Switch doctors</h1>
                     {doctors.map((doc) => 
                         {
                             return (
-                            <Button type="link" key={doc?.name} onClick={useConfirm("Do you want to switch your primary doctor?", () => postNewDoctor(doc))}>
-                                {doc?.name}
-                            </Button>
+                            <>
+                                <Button type="link" key={doc?.first + " " + doc?.last} onClick={useConfirm("Do you want to switch your primary doctor?", () => postNewDoctor(doc))}>
+                                    {doc?.first + " " + doc?.last}
+                                </Button>
+                                <br/>
+                            </>
                             );
                         }
                     )}

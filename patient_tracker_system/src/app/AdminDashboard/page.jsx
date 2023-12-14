@@ -12,7 +12,7 @@ export default function Page() {
             <DoctorCard/>
             <Card className="card" style={{maxWidth: "50%"}}>
                 <CardHeader>
-                    <h2>Add a new doctor</h2>
+                    <h2>Add New Doctor</h2>
                 </CardHeader>
                 <Divider style={{width: "80%"}}/>
                 <CardBody>

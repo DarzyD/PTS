@@ -31,10 +31,8 @@ export const RegisterForm = () => {
             body: JSON.stringify(doc)
         })
         if (response.ok) {
-            console.log(response);
             history.go();
         } else {
-            console.log(response);
             const message = response.json().then((resp) => (resp?.error));
             if (message) {
                 setInvalid(message);
@@ -109,6 +107,10 @@ export const RegisterForm = () => {
         }
         if (first === "") {
             setInvalid("First Name is required");
+            return false;
+        }
+        if (middleInitial === "") {
+            setInvalid("Middle Initial is required");
             return false;
         }
         if (last === "") {
@@ -343,7 +345,7 @@ export const RegisterForm = () => {
                 {invalid}
 
                 <Button className="formButton" id="login-button" type="submit" onClick={handleSubmit}>
-                    Add New Doctor
+                    Add Doctor
                 </Button>
         
             </div>

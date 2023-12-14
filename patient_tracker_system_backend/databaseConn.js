@@ -30,6 +30,8 @@ time BIGINT, date varchar(10));`;
 const documentsTable = `CREATE TABLE documents(patientUsername varchar(50) REFERENCES patients(patientUsername), 
 docid BIGINT, documentName varchar(100), linkToDoc varchar(100),
 PRIMARY KEY(docid));`;
+
+const adminTable = `CREATE TABLE admins(adminUsername varchar(50), password varchar(50), PRIMARY KEY(adminUsername));`
 // export function test(){
 //     const client = new pg.Client(dbURL);
 //     client.connect(function(err) {

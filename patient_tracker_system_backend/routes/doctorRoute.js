@@ -11,16 +11,24 @@ doctorRouter.get("/", async (req, res) => {
     
     // const requestBody = await req.json();
     if (!req.query?.user ) {
-        console.log("all Doctors");
-        const docs = await db.query("select firstname as first, lastname as last, email, phonenumber as phone, npi from doctors");
-        console.log(docs);
+        const docs = await db.query("select doctorUsername as username, firstname as first, lastname as last, email, phonenumber as phone, npi from doctors");
         res.status(200);
         res.json(docs.rows); //return all the doctors
     } else {
-        const myDoc = await db.query("select doctorUsername from patients where doctorUsername = $1", [req.query?.user])
-        const doc = await db.query("select firstname as first, lastname as last, email, phonenumber as phone, npi from doctors where doctorUsername = $1", [myDoc]);
-        res.status(200);
-        res.json(doc?.rows[0]); //return only my doc
+        const myDoc = await db.query("select doctorUsername from patients where patientUsername = $1", [req.query?.user]);
+        const docUsername = myDoc.rows[0];
+        if (!docUsername) {
+            res.status(500)
+            res.send;
+        } else {
+            console.log(docUsername);
+            const {doctorusername}  = docUsername;
+            console.log("username = ", doctorusername);
+            const doc = await db.query("select doctorUsername as username, firstname as first, lastname as last, email, phonenumber as phone, npi from doctors where doctorUsername = $1", [doctorusername]);
+            console.log(doc);
+            res.status(200);
+            res.json(doc?.rows[0]); //return only my doc
+        }
     }
 }); 
 
@@ -32,13 +40,14 @@ doctorRouter.post("/", async (req, res) => {
     res.set('Content-Type', 'application/json');
 
     
-    //TODO connect to db and try to change user's doc to docUsername
-
-    if (/*success from db add row*/ true) {
+    const result = await db.query("update patients set doctorUsername = $1 where patientUsername = $2 returning *",[docUsername, user]);
+    console.log(result);
+    if (/*success from db add row*/ result.rows.length) {
         res.status(200);
     } else {
-        res.status(401)
+        res.status(401);
     }
+    res.send();
 
     //TODO check if username exists in doctor, patient, or admin table
 
@@ -55,7 +64,6 @@ doctorRouter.post("/appointments", async (req, res) => {
                 if(err) {
                   return console.error('error running query', err);
                 }
-                console.log(result);
                 db.end();
               });
         }
