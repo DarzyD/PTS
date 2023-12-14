@@ -1,65 +1,29 @@
 **Overview**
 
-The Patient Tracker System is a digital solution meant to tackle patient management in healthcare. Currently, patients have to request their healthcare for paper documentation about their medications or previous conditions. This is an administrative and time burden for both the healthcare provider and the patient as there are a lot of things to check and look for. This digital solution will offer data security, streamline administrative tasks, streamline information for the patient, and enhance patient care. It serves healthcare providers, their staff, and patients, addressing the challenges of manual paperwork and the need for immediate access to accurate patient information. Furthermore, digitalization of this process also improves patient privacy and promotes environmental incentives. The system aims to improve efficiency, convenience, and overall healthcare quality.	
+The Patient Tracker System is a digital solution meant to tackle patient management in healthcare. Currently, patients have to request their healthcare for paper documentation about their medications or previous conditions. This is an administrative and time burden for both the healthcare provider and the patient as there are a lot of things to check and look for. This digital solution will offer data security, streamline administrative tasks, streamline information for the patient, and enhance patient care. It serves healthcare providers, their staff, and patients, addressing the challenges of manual paperwork and the need for immediate access to accurate patient information. Furthermore, the digitalization of this process also improves patient privacy and promotes environmental incentives. The system aims to improve efficiency, convenience, and overall healthcare quality.	
 
 
-**Example Interaction**
-**A sample scenario of this system for a Doctor is presented below:**
+**How to compile**
 
-• Doctor logs into the Patient Tracker system using their credentials.
-
-• As a doctor, I need to be able to log into the Patient Tracker system using my credentials, so that I can have access to necessary information.
-
-• As a doctor, I should see a dashboard displaying a list of patients scheduled for the day, so I can prepare for the consultations
-
-• As a doctor, I need to be able to select a patient from the list and access their record, which includes the patient's medical history, current medications, and previous diagnostics, so I can better understand the patient.
-
-• As a doctor, I need to be able to update any necessary details and add new medications or diagnoses, so I can perform my job duties and keep other doctors informed.
-
-**A sample scenario of this system for a Patient is presented below:**
-
-• As a patient, I need to be able to log into the Patient Tracker system using my credentials, so that I can have access to necessary information.
-
-• As a patient, I should see a dashboard displaying a list of submitted documents (medical history, current medications, and previous diagnoses) that belong to me. I also should be able to see future appointments and a list of available doctors, so I can understand what the doctor knows about me and upcoming appointments.
-
-• As a patient, I need to be able to submit and upload new documents, so I can update my doctor on changes that occur.
-
-• As a patient, I need to be able to download and view any documents from the list, so I can keep it for my own records or submit to organizations that may require them (e.g.work needs diagnosis or doctor notes)
-
-**A sample scenario of this system for an Administrator is presented below:**
-
-• As an administrator, I need to be able to log into the Patient Tracker system using my credentials, so that I can have access to necessary information.
-
-• As an administrator, I need to be able to see a dashboard displaying a list of Doctors that work there, so I can have a better understanding of which doctors are registered in the system
-
-• As an administrator, I need to be able to select a doctor from the list and remove them, so doctors who no longer work here should not be able to view any information.
-
-• As an administrator, I need to be able to create and register new doctors, so I can perform my job as an administrator.
-
-**Some goals for the system are:**
-
-The system should be easy to debug and contain unit tests.
-
-The system should be easy to read and understand by other developers, the system should have proper comments and nicely sectioned code with acceptable spacing.
-
-The system should have room for future features, each component should be separated neatly and nicely.
-
-The system should be easy to maintain, it should include readme files and other documentation.
-
-The system should be usable, it should work.
+1. Clone this repository
+2. Open two terminals, you need one for the front-end section and another for the backend section
+3. In each terminal, go into the respective folders - "cd patient_tracker_system" for frontend and "cd patient_tracker_system_backend" for the backend
+4. Now, install the packages needed, in each terminal type "npm install"
+5. After installation, "npm run dev", see below for example terminal when done properly
+![Image 12-14-23 at 11 19 AM](https://github.com/DarzyD/PTS/assets/39443822/62431a30-ea98-45eb-ab49-ae62c974f03b)
+6. If the compilation is successful, you will be able to go to "http://localhost:portnumber" in your web explorer. (The majority of the time port used will be 3000 "localhost:3000", but may differ for different setups)
 
 
-**High Level Goal**
+**How to Interact**
 
-This software system will likely have the following components:
+1. To log in as an administrator, use username: admin and password: Admin  (case sensitive)
+2. To log in as a doctor, you can create a doctor account using administrator or use username: testDoctor and password: test
+3. To log in as a patient, you can register for an account on the login page or use username: hello and password: test
 
-• User Authentication
 
-• Profile Management
+**Testing**
 
-• Data Reliability
+Currently, no automated tests are available to the public; however, if testing is needed, there are plenty of testable sections in the code, and comments are supplied in areas possible for testing.
 
-• Data Security 
 
-• User-Friendly UI
 
