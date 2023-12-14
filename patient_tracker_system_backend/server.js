@@ -5,6 +5,7 @@ import registerRouter from "./routes/registerRoute.js";
 import doctorRouter from "./routes/doctorRoute.js";
 import newDoctorRouter from "./routes/addDoctorRoute.js";
 import patientRouter from "./routes/patientRoute.js";
+import appointmentRouter from "./routes/appointment.js";
 import cors from 'cors';
 
 const app = express();
@@ -21,6 +22,7 @@ app.use("/login", loginRouter);
 app.use("/register", registerRouter);
 app.use("/newDoctor", newDoctorRouter);
 app.use("/patient", patientRouter);
+app.use("/appointment", appointmentRouter);
 
 
 

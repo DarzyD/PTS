@@ -94,6 +94,7 @@ export const DoctorCard = () => {
             <Card className="card" style={{flexGrow: 1}}>
                 <CardHeader>
                 <h1>My Doctor</h1>
+                    {myDoctor?.first ? 
                     <p>
                         {myDoctor?.first} {myDoctor?.last}
                         <br/>
@@ -103,6 +104,11 @@ export const DoctorCard = () => {
                         <br/>
                         {myDoctor?.npi}
                     </p>
+                    : <p>
+                        Choose your primary doctor from the list below
+                    </p>
+}
+
                 </CardHeader>
                 <Divider style={{width: "80%"}}/>
                 <CardBody>

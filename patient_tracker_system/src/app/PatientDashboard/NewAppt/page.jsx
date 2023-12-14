@@ -13,45 +13,13 @@ export default function Page() {
     const {data: session} = useSession();
     // const router = useRouter();
 
-    const fetchDoctors = async () => {
-        //TODO actually fetch request the database
-        //mimicking a fetch request
-        const testData = {
-            "doctors":[
-                {
-                    "doctorUsername": "thisDoctor",
-                    "firstName" : "Robin",
-                    "lastName" : "Smith",
-                    "middleInitial" : "M",
-                    "dob" : "12041975",
-                    "sex" : "F",
-                    "address" : "test street",
-                    "city" : "amherst",
-                    "state" :"MA",
-                },
-                {
-                    "doctorUsername": "test",
-                    "firstName" : "Wendy",
-                    "lastName" : "Smith",
-                    "middleInitial" : "M",
-                    "dob" : "12041975",
-                    "sex" : "F",
-                    "address" : "test street",
-                    "city" : "amherst",
-                    "state" :"MA",
-                },
-            ]
-        }
-        return testData;
-    };
-
     const validDate = (selectedDate) => {
         const currentDate = new Date();
         const selectedDateObj = new Date(selectedDate);
         return selectedDateObj > currentDate;
     };
 
-    const submitAppointment = (event) => {
+    const submitAppointment = async (event) => {
         event.preventDefault();
 
         const selectedDoctor = document.getElementById('doctor').value;
@@ -69,22 +37,43 @@ export default function Page() {
             return;
         }
 
-        // TODO Handling appointment submission
-        const text = "INSERT INTO appointments VALUES ($1,$2,$3,$4)";
-        const values = [session?.user?.name, selectedDoctor, selectedDate, selectedTime];
-        const result = db.query(text, values);
-
-        //going back to previous page when submission is done corectly
-        history.pushState({},"", "/PatientDashboard");
-        history.go();
+        const res = await fetch("http://localhost:3001/appointment", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body : JSON.stringify({
+                user: session?.user?.username,
+                doctor: selectedDoctor,
+                date: selectedDate.replace(/-/g,""),
+                time: selectedTime
+            })
+            
+        })
+        console.log(res);
+        if (res.ok) {
+            //going back to previous page when submission is done corectly
+            history.pushState({},"", "/PatientDashboard");
+            history.go();
+        }
     };
 
     useEffect(()=>{
-        const fetchData = async() =>{
-            const doctorsData = await fetchDoctors();
-            setDoctors(doctorsData.doctors);
-        }
-        fetchData();
+        const res = fetch("http://localhost:3001/doctor", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            
+        })
+        res.then((response) => {
+            const resCode = response.status;
+            response.json().then((doctors) => {
+                if (resCode == 200 && doctors?.length) {
+                    setDoctors(doctors)
+                }}
+            )
+        })
     },[]);
 
     return( 
@@ -96,8 +85,8 @@ export default function Page() {
                 <label for="doctor">Select Doctor:</label>
                 <select id="doctor" name="doctor">
                     {doctors.map((doctor) => (
-                        <option key={doctor.doctorUsername} value={doctor.doctorUsername}>
-                            {doctor.firstName} {doctor.lastName}
+                        <option key={doctor.username} value={doctor.username}>
+                            {doctor.first} {doctor.last}
                         </option>
                     ))}
                 </select>
