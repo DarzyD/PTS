@@ -46,6 +46,7 @@ registerRouter.post("/", async (req, res) => {
 
 
     //TODO check if username exists in doctor, patient, or admin table
+    
 
     //TODO check if password matches hashed password in database
 });

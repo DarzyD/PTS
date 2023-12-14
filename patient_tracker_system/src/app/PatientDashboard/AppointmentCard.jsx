@@ -134,6 +134,22 @@ export const AppointmentCard = () => {
         history.go();
     };
 
+    const changeAppointment= (appointmentId) => {
+        // TODO handle situation
+        console.log(`Changing appointment ${appointmentId}`);
+    };
+
+    const cancelAppointment = (appointmentId) => {
+        // TODO remove appointment from table
+        
+        // const text = "DELETE FROM appointments WHERE patientUserName = $1 AND selectedDoctor = $2 AND selectedDate = $3 AND selectedTime = $4";
+        
+        // const values = ["patientUsername", selectedDoctor, selectedDate, selectedTime];
+        // const result = db.query(text, values);
+        console.log(`Canceling appointment ${appointmentId}`);
+    };
+
+
     return (
             <Card className="card" style={{flexGrow: 1}}>
                 <CardHeader>
@@ -150,6 +166,12 @@ export const AppointmentCard = () => {
                         <div key={index}>
                             <p>Doctor: {appointment.doctorUsername}</p>
                             <p>Date & Time {appointment.date} @ {appointment.time}</p>
+                            {/* <Button type="primary" onClick={() => changeAppointment(appointment.id)}>
+                                Change
+                            </Button> */}
+                            <Button type="danger" onClick={() => cancelAppointment(appointment.id)}>
+                                Cancel
+                            </Button>
                             <br></br>
                         </div>
                     ))}

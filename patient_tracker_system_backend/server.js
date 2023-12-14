@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 import loginRouter from "./routes/loginRoute.js";
 import registerRouter from "./routes/registerRoute.js";
 import doctorRouter from "./routes/doctorRoute.js";
-import newDoctorRouter from "./routes/addDoctorRoute.js"
+import newDoctorRouter from "./routes/addDoctorRoute.js";
+import patientRouter from "./routes/patientRoute.js";
 import cors from 'cors';
 
 const app = express();
@@ -19,6 +20,7 @@ app.use("/doctor", doctorRouter);
 app.use("/login", loginRouter);
 app.use("/register", registerRouter);
 app.use("/newDoctor", newDoctorRouter);
+app.use("/patient", patientRouter);
 
 
 
