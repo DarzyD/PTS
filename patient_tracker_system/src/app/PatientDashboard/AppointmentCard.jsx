@@ -21,112 +21,50 @@ export const AppointmentCard = () => {
     return confirm;
     }
 
-    //testing with database format to see if information are displayed correctly 
-    const fetchAppointments = async () => {
-        //mimicking a fetch request
-        const testData = {
-            "appointments":[
-                {
-                    "doctorUsername": "testDoctor",
-                    "date": "2023-12-13",
-                    "time": "10:00AM",
-                    "patientUsername": "testPatientOne"
-                },
-                {
-                    "doctorUsername": "testDoctor",
-                    "date": "2023-12-13",
-                    "time": "11:00AM",
-                    "patientUsername": "testPatientTwo"
-        
-                },
-                {
-                    "doctorUsername": "testDoctor",
-                    "date": "2023-12-13",
-                    "time": "12:00PM",
-                    "patientUsername": "testPatientThree"
-                },
-                {
-                    "doctorUsername": "testDoctor",
-                    "date": "2023-12-14",
-                    "time": "10:00AM",
-                    "patientUsername": "testPatientOne"
-        
-                },
-                {
-                    "doctorUsername": "testDoctor",
-                    "date": "2023-12-14",
-                    "time": "11:00AM",
-                    "patientUsername": "testPatientTwo"
-        
-                },
-                {
-                    "doctorUsername": "testDoctor",
-                    "date": "2023-12-15",
-                    "time": "12:00PM",
-                    "patientUsername": "testPatientThree"
-                }    
-            ]
+    const formatDate = (dateString) => {
+        const cleaned = ('' + dateString).replace(/\D+/g, '');
+        const match = cleaned.match(/^(\d{4})(\d{2})(\d{2})$/);
+        if (match) {
+            return match[2] + '-' + match[3] + '-' + match[1];
         }
-        return testData;
-    };
-
-    const postNewDoctor = async (doc = {}) => {
-        const {username: docUsername} = doc;
-        const response = await fetch("http://localhost:3001/doctor", {
-            method: "Post",
+        return null;
+    }
+    const formatTime = (time) => {
+        const minute = time %100;
+        const hour = (time - minute)/100;
+        return hour >=12 ? "" + hour-12 + ":" + minute + " PM" : "" + hour + ":" + minute + " AM";
+    }
+    const fetchAppointments =() => {
+        if (!session?.user?.username) {
+            return;
+        }
+        
+        const res = fetch("http://localhost:3001/appointment?user=" + session?.user?.username, {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json"
-            },
-            body: {
-                user: session?.user?.username, 
-                doctor: docUsername
+            }
+            
+        })
+        res.then((response) => {
+            const resCode = response.status;
+            console.log(response);
+            if (response.ok) {
+                response.json().then((appointments) => {
+                    if (resCode == 200 && appointments?.length) {
+                        setMyAppointments(appointments);
+                    }}
+                )
             }
         })
-        if (response.ok) {
-            setMyDoctor(doc);
-        }
     }
 
     useEffect(() => { //onPageLoad
+        fetchAppointments()
         
-        // const res = fetch("http://localhost:3001/doctor", {
-        //     method: "GET",
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-            
-        // })
-        // res.then((response) => {
-        //     const resCode = response.status;
-        //     response.json().then((doctors) => {
-        //         if (resCode == 200 && doctors?.length) {
-        //             setDoctors(doctors)
-        //         }}
-        //     )
-        // })
-        
-        // const res2 = fetch("http://localhost:3001/doctor?user=" + session?.user?.username, {
-        //     method: "GET",
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     }            
-        // })
-        // res2.then((response) => {
-        //     const res2Code = response.status;
-        //     response.json().then((doc) => {
-        //         if (res2Code == 200 && doc) {
-        //             setDoctors(doc);
-        //         }
-        //     })
-        // })
 
-        const fetchData = async () => {
-            const appointmentsData = await fetchAppointments();
-            setMyAppointments(appointmentsData.appointments);
-        };
 
-        fetchData();
-    }, [session?.user?.name])
+    }, [session])
 
     const newAppointment = () => {
         // Navigate to the new appointment page
@@ -134,19 +72,24 @@ export const AppointmentCard = () => {
         history.go();
     };
 
-    const changeAppointment= (appointmentId) => {
-        // TODO handle situation
-        console.log(`Changing appointment ${appointmentId}`);
-    };
 
-    const cancelAppointment = (appointmentId) => {
-        // TODO remove appointment from table
-        
-        // const text = "DELETE FROM appointments WHERE patientUserName = $1 AND selectedDoctor = $2 AND selectedDate = $3 AND selectedTime = $4";
-        
-        // const values = ["patientUsername", selectedDoctor, selectedDate, selectedTime];
-        // const result = db.query(text, values);
-        console.log(`Canceling appointment ${appointmentId}`);
+    const cancelAppointment = (appointment) => {
+        const res = fetch("http://localhost:3001/appointment", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                user: appointment.patientusername,
+                doctor: appointment.doctorusername,
+                time: appointment.time,
+                date: appointment.date
+            })
+            
+        })
+        if (res.ok) {
+            fetchAppointments();
+        }
     };
 
 
@@ -164,12 +107,9 @@ export const AppointmentCard = () => {
                     <h1>Appointments</h1>
                     {myAppointments.map((appointment, index) => (
                         <div key={index}>
-                            <p>Doctor: {appointment.doctorUsername}</p>
-                            <p>Date & Time {appointment.date} @ {appointment.time}</p>
-                            {/* <Button type="primary" onClick={() => changeAppointment(appointment.id)}>
-                                Change
-                            </Button> */}
-                            <Button type="danger" onClick={() => cancelAppointment(appointment.id)}>
+                            <p>Doctor: {appointment.doctorusername}</p>
+                            <p>Date & Time: {formatDate(appointment.date)} @ {formatTime(appointment.time)}</p>
+                            <Button type="danger" onClick={() => cancelAppointment(appointment)}>
                                 Cancel
                             </Button>
                             <br></br>

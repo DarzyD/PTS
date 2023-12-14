@@ -21,11 +21,8 @@ doctorRouter.get("/", async (req, res) => {
             res.status(500)
             res.send;
         } else {
-            console.log(docUsername);
             const {doctorusername}  = docUsername;
-            console.log("username = ", doctorusername);
             const doc = await db.query("select doctorUsername as username, firstname as first, lastname as last, email, phonenumber as phone, npi from doctors where doctorUsername = $1", [doctorusername]);
-            console.log(doc);
             res.status(200);
             res.json(doc?.rows[0]); //return only my doc
         }
@@ -41,7 +38,6 @@ doctorRouter.post("/", async (req, res) => {
 
     
     const result = await db.query("update patients set doctorUsername = $1 where patientUsername = $2 returning *",[docUsername, user]);
-    console.log(result);
     if (/*success from db add row*/ result.rows.length) {
         res.status(200);
     } else {

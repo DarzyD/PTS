@@ -44,9 +44,7 @@ export const DoctorCard = () => {
                 doctor: doc
             })
         })
-        console.log(response);
         if (response.ok) {
-            console.log(doc);
             setMyDoctor(doc);
         }
     }
@@ -80,7 +78,6 @@ export const DoctorCard = () => {
 
             if (response.ok) {
                 response.json().then((doc) => {
-                    console.log(doc);
                     if (doc) {
                         setMyDoctor(doc);
                     }

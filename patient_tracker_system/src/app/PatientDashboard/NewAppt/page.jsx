@@ -46,11 +46,10 @@ export default function Page() {
                 user: session?.user?.username,
                 doctor: selectedDoctor,
                 date: selectedDate.replace(/-/g,""),
-                time: selectedTime
+                time: selectedTime.replace(/:/g, "")
             })
             
         })
-        console.log(res);
         if (res.ok) {
             //going back to previous page when submission is done corectly
             history.pushState({},"", "/PatientDashboard");
