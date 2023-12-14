@@ -8,25 +8,19 @@ const doctorRouter = express.Router();
 //@route GET /doctor
 //@access Public
 doctorRouter.get("/", async (req, res) => {
-    const docs = [
-        {
-            name: "Fred Flintstone", email: "FFlint@doc.doc", phone:"123-555-4532", username: "fredflint"
-        },
-        {
-            name: "Laura Hardwater", email: "LH@doc.doc", phone:"123-555-7753", username: "Lhard"
-        },
-        {
-            name: "Nan Naime", email: "nnaime@doc.doc", phone:"123-555-9874", username: "nanna"
-        }
-    ]
-
+    
     // const requestBody = await req.json();
-    if (!req.query?.user) {
+    if (!req.query?.user ) {
+        console.log("all Doctors");
+        const docs = await db.query("select firstname as first, lastname as last, email, phonenumber as phone, npi from doctors");
+        console.log(docs);
         res.status(200);
-        res.json(docs); //return all the doctors
+        res.json(docs.rows); //return all the doctors
     } else {
+        const myDoc = await db.query("select doctorUsername from patients where doctorUsername = $1", [req.query?.user])
+        const doc = await db.query("select firstname as first, lastname as last, email, phonenumber as phone, npi from doctors where doctorUsername = $1", [myDoc]);
         res.status(200);
-        res.json(docs[0]); //return only my doc
+        res.json(doc?.rows[0]); //return only my doc
     }
 }); 
 
