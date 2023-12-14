@@ -30,9 +30,9 @@ export const AppointmentCard = () => {
         return null;
     }
     const formatTime = (time) => {
-        const minute = time %100;
+        const minute = time %100 <10 ? "0" + time %100 : time %100;
         const hour = (time - minute)/100;
-        return hour >=12 ? "" + hour-12 + ":" + minute + " PM" : "" + hour + ":" + minute + " AM";
+        return hour >12 ? "" + hour-12 + ":" + minute + " PM" : "" + hour + ":" + minute + " AM";
     }
     const fetchAppointments =() => {
         if (!session?.user?.username) {
@@ -48,10 +48,9 @@ export const AppointmentCard = () => {
         })
         res.then((response) => {
             const resCode = response.status;
-            console.log(response);
             if (response.ok) {
                 response.json().then((appointments) => {
-                    if (resCode == 200 && appointments?.length) {
+                    if (resCode == 200) {
                         setMyAppointments(appointments);
                     }}
                 )
@@ -73,8 +72,8 @@ export const AppointmentCard = () => {
     };
 
 
-    const cancelAppointment = (appointment) => {
-        const res = fetch("http://localhost:3001/appointment", {
+    const cancelAppointment = async (appointment) => {
+        const res = await fetch("http://localhost:3001/appointment", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
@@ -87,6 +86,7 @@ export const AppointmentCard = () => {
             })
             
         })
+        console.log(res);
         if (res.ok) {
             fetchAppointments();
         }
