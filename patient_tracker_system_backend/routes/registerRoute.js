@@ -32,7 +32,7 @@ registerRouter.post("/", async (req, res) => {
     } else {
 
         const text = 'INSERT INTO PATIENTS VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12,$13, $14, $15) returning *';
-        const values = [username, first, last, dob, gender, middleInitial, ssn, address, city, state, zip, phone, email, password, null];
+        const values = [username, first, last, middleInitial, dob, gender, ssn, address, city, state, zip, phone, email, password, null];
         const result = await db.query(text, values);
         if (/*success from db add row*/ result) {
             res.status(200);
